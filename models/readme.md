@@ -6,3 +6,5 @@ aus der DB geholt und aufsummiert. Diese Daten werden dann auf einen lokalen FLA
 
 Programmablauf Beispiel:
 
+<img src="https://github.com/DanielNiederhauser/Python/blob/master/models/Programmablauf1.PNG">
+<img src="https://github.com/DanielNiederhauser/Python/blob/master/models/Programmablauf2.PNG">
