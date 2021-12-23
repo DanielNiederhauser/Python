@@ -1,5 +1,6 @@
 import random
 import mysql.connector
+import requests
 
 
 # 0 - rock
@@ -17,6 +18,47 @@ lizard=0
 scissors=0
 tempbotwins=0
 tempuserwins=0
+
+#DB Stuff
+
+def DatabaseErstellen(host, user, pw, name="SWP_Python"):
+    db = mysql.connector.connect(host=host, user=user, password=pw)
+    cursor = db.cursor()
+    cursor.execute("Create database if not exists "+name)
+
+def CreateTable(host, user, pw, dbname="SWP_Python",name="SchereSteinPapier"):
+    db = mysql.connector.connect(host=host, user=user, password=pw, database=dbname)
+    cursor = db.cursor()
+    cursor.execute("Create Table if not exists "+name+
+                   " (rock INT, spock INT, paper INT, lizard INT, scissors INT)")
+
+def Insert(rock, spock, paper, lizard, scissors, host, user, pw, dbname="SWP_Python", name="SchereSteinPapier"):
+    db = mysql.connector.connect(host=host, user=user, password=pw, database=dbname)
+    cursor = db.cursor()
+    sql = "INSERT INTO "+name+" VALUES ("+rock.__str__()+","+spock.__str__() +","+paper.__str__()+ ","+lizard.__str__()+","+scissors.__str__()+")"
+    #print(sql)
+    cursor.execute(sql)
+    db.commit()
+def alleSummen(host, user, pw, dbname="SWP_Python",tablename="SchereSteinPapier"):
+    db = mysql.connector.connect(host=host, user=user, password=pw, database=dbname)
+    cursor = db.cursor()
+    cursor.execute("select sum(rock),sum(spock),sum(paper),sum(lizard),sum(scissors) from "+tablename)
+    return cursor.fetchall()[0]
+    #Aufruf dieser Methode am besten mit 5 Variablen in der Reihenfolge: (in die 5 Variablen speichern)
+    #rock,spock,paper,lizard,scissors
+
+def sendRequest(username, voteScissors, voteRock, votePaper, voteSpock, voteLizard, apiIP = "http://127.0.0.1:5000"):
+    reqUrl = apiIP + "/v1/updateRecord"
+    reqUrl+= "?username=" + str(username) + "&voteScissors=" + str(voteScissors)
+    reqUrl+= "&voteRock=" + str(voteRock) + "&votePaper=" + str(votePaper)
+    reqUrl+= "&voteSpock=" + str(voteSpock) + "&voteLizard=" + str(voteLizard)
+    responseCode = 0
+    try:
+        response = requests.post(reqUrl, None)
+        responseCode = response.status_code
+    except:
+        return 0
+    return responseCode
 
 def name_to_number(name):
     if(name == 'rock'):
@@ -92,6 +134,11 @@ def rpsls(player_choice):
         print ("Player and computer tie!")
     return winsplayer, winsbot, temprock, tempspock, temppaper, templizard, tempscissors
 choice="j"
+host="localhost"
+user="java"
+pw="java"
+DatabaseErstellen(host,user,pw)
+CreateTable(host,user,pw)
 
 while(choice=="j"):
 
@@ -127,26 +174,20 @@ while(choice=="j"):
     print("Aktuelle Wins:")
     print("Wins User: ", winsuser)
     print("WinsBot: ",winsbot)
-    print(rock,spock,paper,lizard,scissors)
+    print("Userchoices: ")
+    print("Rock: "+rock.__str__()+" Spock:"+spock.__str__()+" Paper: "+paper.__str__()+" Lizard: "+lizard.__str__()+" Scissors: "+scissors.__str__())
+
     print("\n")
     choice=input("weiterspielen? [j,n]")
 print("ENDSTAND")
 print("Wins Bot: ",winsbot)
 print("Wins User: ",winsuser)
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="java",
-    password="java",
-    database="python"
-)
+Insert(rock,spock,paper,lizard,scissors,"localhost","java","java")
+print("In DB gespeichert")
 
-mycursor = mydb.cursor()
+r,sp,p,l,s =alleSummen("localhost","java","java")
+print(r,sp,p,l,s)
+code = sendRequest("Niederhauser",scissors,rock,paper,spock,lizard)
 
-sql = "INSERT INTO ergebnisse VALUES (%s, %s, %s, %s, %s)"
-val = (rock,spock,paper,lizard,scissors)
-mycursor.execute(sql, val)
-
-mydb.commit()
-
-print(mycursor.rowcount, "record inserted.")
+print("code="+str(code))
