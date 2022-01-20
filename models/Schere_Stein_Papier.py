@@ -184,10 +184,12 @@ print("Wins Bot: ",winsbot)
 print("Wins User: ",winsuser)
 
 Insert(rock,spock,paper,lizard,scissors,"localhost","java","java")
-print("In DB gespeichert")
+print("In DB gespeichert \n")
 
 r,sp,p,l,s =alleSummen("localhost","java","java")
+print("Alle Gesamtsummen der DB der Reihe nach:")
 print(r,sp,p,l,s)
-code = sendRequest("Niederhauser",scissors,rock,paper,spock,lizard)
+
+code = sendRequest("Niederhauser",s,r,p,sp,l)
 
 print("code="+str(code))
