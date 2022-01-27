@@ -1,4 +1,3 @@
-#ReadMe siehe /models/ReadMeVerketteteListe
 class Knoten:
     def __init__(self, daten):
         self.daten = daten
