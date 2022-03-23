@@ -96,7 +96,7 @@ class LListe:
             count+=1
             aktuelles=aktuelles.next
     def sortASC(self):
-        if self.head!= None:
+        """if self.head!= None:
             temp = self.head
             while temp.next!=None:
                 index = temp.next
@@ -106,7 +106,31 @@ class LListe:
                         temp.value = index.value
                         index.value = temp1
                     index = index.next
-                temp = temp.next
+                temp = temp.next"""
+
+        """key = self.head
+        while key != None:
+            start = self.head
+            while key !=start:
+                if key.value<start.value:
+                    self.insertAfter(start.previous, Node(key.value))
+                    self.deleteAfter(key.previous)
+                    break
+                start = start.next
+            key = key.next"""
+        if self.head==None:
+            return
+        else:
+            current = self.head
+            while current.next!=None:
+                index = current.next
+                while index!=None:
+                    if current.value>index.value:
+                        temp = current.value
+                        current.value=index.value
+                        index.value=temp
+                    index=index.next
+                current=current.next
     def sortDESC(self):
         if self.head!= None:
             temp = self.head
@@ -195,7 +219,7 @@ class ArrayListe:
     def printArrayList(self):
         print(self.list)
 
-if False: #-----------------TESTZWECKE---------------------
+if False: #Testzwecke
     element1 = Node(1)
     element2 = Node(2)
     element3 = Node(3)
@@ -215,7 +239,7 @@ if False: #-----------------TESTZWECKE---------------------
     print("Alle Elemente ausgeben")
     list.printAll()
     #list.printfirst()
-if False:#--------------------TESTZWECKE--------------------
+if False: #Testzwecke
     aList = ArrayListe([17,123,3213,1,2,3,5,7,1,2,-1,-2])
     #aList.insertAfter(0,9)
     #aList.insertBefore(0,3)
@@ -261,12 +285,14 @@ if __name__ =="__main__":
     einfuegZeitLinkedList = endeEinfuegenLinkedList-startEinfuegenLinkedList
     print("Einfügzeit LinkedList: ",'{:5.10f}'.format(einfuegZeitLinkedList*1000), "Millisekunden")
 
-    #print("Type: ",type(llist))
-    #llist.printAll()
+    print("Type: ",type(llist))
+    llist.printAll()
     startSortArrayList = time.time()
     aL.sortASC()
     endeSortArrayList = time.time()
     sortZeitArrayList = endeSortArrayList-startSortArrayList
+    aL.printArrayList()
+
     if sortZeitArrayList>=1:
         print("Sortierzeit ArrayList: ",'{:5.10f}'.format(sortZeitArrayList), "Sekunden")
     else:
@@ -275,7 +301,8 @@ if __name__ =="__main__":
     startSortLinkedList = time.time()
     llist.sortASC()
     endeSortLinkedList = time.time()
-    sortZeitLinkedList = endeSortLinkedList-startEinfuegenLinkedList
+    sortZeitLinkedList = endeSortLinkedList-startSortLinkedList
+    llist.printAll()
     if sortZeitLinkedList>=1:
         print("Sortierzeit LinkedList: ",'{:5.10f}'.format(sortZeitLinkedList), "Sekunden")
     else:
