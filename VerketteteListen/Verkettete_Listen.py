@@ -195,7 +195,7 @@ class ArrayListe:
     def printArrayList(self):
         print(self.list)
 
-if False:
+if False: #-----------------TESTZWECKE---------------------
     element1 = Node(1)
     element2 = Node(2)
     element3 = Node(3)
@@ -215,7 +215,7 @@ if False:
     print("Alle Elemente ausgeben")
     list.printAll()
     #list.printfirst()
-if False:
+if False:#--------------------TESTZWECKE--------------------
     aList = ArrayListe([17,123,3213,1,2,3,5,7,1,2,-1,-2])
     #aList.insertAfter(0,9)
     #aList.insertBefore(0,3)
