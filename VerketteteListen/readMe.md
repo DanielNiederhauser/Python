@@ -1,4 +1,4 @@
-Verkettete Listen
+<h1>Verkettete Listen</h1>
 
 Dieses Programm war eine Übung, um den Unterschied zwischen Einfach-Verketteten Listen, Doppelt Verketteten Listen und (Array)Listen zu verdeutlichen.
 
